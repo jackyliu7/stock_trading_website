@@ -1,12 +1,14 @@
 import React, { useState } from "react"
 import axios from 'axios';
+import { Navigate } from 'react-router';
 
-export default function LoginForm() {
+export default function LoginForm({setLoggedIn}) {
   let [authMode, setAuthMode] = useState("signin")
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -31,12 +33,17 @@ export default function LoginForm() {
     try {
       const response = await axios.post('http://127.0.0.1:8000/authentication/login/', { username, password });
       localStorage.setItem('username', username);
+      setLoggedIn(true)
       console.error(response)
-      window.location.href = '/home';
+      setRedirectToHome(true);
     } catch (error) {
       console.error(error);
     }
   };
+  
+  if (redirectToHome) {
+    return <Navigate to="/home" />;
+  }
 
   const handleRegister = async (event) => {
     event.preventDefault();
