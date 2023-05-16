@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import requests
 from rest_framework.views import APIView
 
-api_key = "R9PBESH8HGZJ082N"
+api_key = "dummy value"
 
 class TickerView(APIView):
     def get(self, request):
