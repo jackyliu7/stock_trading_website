@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import axios from 'axios';
 import { Navigate } from 'react-router';
 
-export default function LoginForm({setLoggedIn}) {
+export default function LoginForm({setLoggedIn}, {setUserID}) {
   let [authMode, setAuthMode] = useState("signin")
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -22,9 +22,6 @@ export default function LoginForm({setLoggedIn}) {
   };
 
   const changeAuthMode = () => {
-    setEmail("")
-    setUsername("")
-    setPassword("")
     setAuthMode(authMode === "signin" ? "signup" : "signin")
   }
 
@@ -37,14 +34,11 @@ export default function LoginForm({setLoggedIn}) {
       console.error(response)
       setRedirectToHome(true);
     } catch (error) {
+      window.alert('Failed to log in. Please check your credentials.');
       console.error(error);
     }
   };
   
-  if (redirectToHome) {
-    return <Navigate to="/home" />;
-  }
-
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
@@ -57,6 +51,10 @@ export default function LoginForm({setLoggedIn}) {
       console.error(error);
     }
   };
+
+  if (redirectToHome) {
+    return <Navigate to="/portfolio" />;
+  }
 
   if (authMode === "signin") {
     return (

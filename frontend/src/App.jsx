@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, createContext} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import HomePage from './components/HomePage';
 import TradePage from './components/TradePage';
 import PortfolioPage from './components/PortfolioPage';
 import AccountPage from './components/AccountPage';
 import LoginForm from './components/LoginForm';
-import LogoutPage from './components/LogoutPage';
+import LogoutPage from './components/LogoutButton';
 import NavBar from './components/NavBar';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [userID, setUserID] = useState("");
+  const UserContext = createContext();
 
   return (
     <Router>
@@ -21,19 +22,22 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
             path="/login"
-            element={<LoginForm setLoggedIn={setLoggedIn} />}
+            element={<LoginForm setLoggedIn={setLoggedIn} setUserID={setUserID} />}
           />
           {isLoggedIn ? (
             <>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/trade" element={<TradePage />} />
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/account" element={<AccountPage />} />
-              <Route path="/logout" element={<LogoutPage />} />
+              <Route path="/trade" element={<UserContext.Provider value={userID}>
+                                              <TradePage />
+                                            </UserContext.Provider>} />
+              <Route path="/portfolio" element={<UserContext.Provider value={userID}>
+                                                  <PortfolioPage />
+                                                </UserContext.Provider>} />
+              <Route path="/account" element={<UserContext.Provider value={userID}>
+                                                <AccountPage />
+                                              </UserContext.Provider>} />
             </>
           ) : (
             <>
-              <Route path="/home" element={<Navigate to="/login"/>} />
               <Route path="/login" element={<Navigate to="/login"/>} />
               <Route path="/trade" element={<Navigate to="/login"/>} />
               <Route path="/portfolio" element={<Navigate to="/login"/>} />
