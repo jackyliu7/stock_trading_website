@@ -6,15 +6,14 @@ from rest_framework.views import APIView
 api_key = "dummy value"
 
 class TickerView(APIView):
-    def get(self, request):
-        symbol = request.data.get('symbol')
-        response_stock = requests.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol" 
-                                      + symbol + "&apikey=" + api_key).json()
-        
+    def post(self, request):
+        symbol = request.data.get('ticker')
+        response_stock = requests.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" 
+                                      + str(symbol) + "&apikey=" + api_key).json()
         if response_stock['Global Quote']:
             response = {
                 'status': 'success',
-                'message': 'Trade processed successfully'
+                'message': 'symbol found'
             }
             return JsonResponse(response | response_stock, status=200)
         
@@ -25,15 +24,15 @@ class TickerView(APIView):
 
 
 class TickerHistoryView(APIView):
-    def get(self, request):
-        symbol = request.data.get('symbol')
-        response_stock = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol" 
-                                      + symbol + "&outputsize=full&apikey=" + api_key).json()
+    def post(self, request):
+        symbol = request.data.get('ticker')
+        response_stock = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" 
+                                      + str(symbol) + "&outputsize=full&apikey=" + api_key).json()
 
         if response_stock['Global Quote']:
             response = {
                 'status': 'success',
-                'message': 'Trade processed successfully'
+                'message': 'symbol found'
             }
             return JsonResponse(response | response_stock, status=200)
         
