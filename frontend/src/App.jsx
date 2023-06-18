@@ -1,40 +1,35 @@
-import React, { useState, createContext} from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import TradePage from './components/TradePage';
+import TradePage from './components/Trade/TradePage';
 import PortfolioPage from './components/PortfolioPage';
 import AccountPage from './components/AccountPage';
-import LoginForm from './components/LoginForm';
-import LogoutPage from './components/LogoutButton';
+import LoginForm from './components/Authentication/LoginForm';
 import NavBar from './components/NavBar';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [userID, setUserID] = useState("");
-  const UserContext = createContext();
+  
+  useEffect(() => {
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
     <Router>
       <div className="container">
-        {isLoggedIn && <NavBar />}
+        {isLoggedIn && <NavBar setLoggedIn={setLoggedIn} />}
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
             path="/login"
-            element={<LoginForm setLoggedIn={setLoggedIn} setUserID={setUserID} />}
+            element={<LoginForm setLoggedIn={setLoggedIn} />}
           />
           {isLoggedIn ? (
             <>
-              <Route path="/trade" element={<UserContext.Provider value={userID}>
-                                              <TradePage />
-                                            </UserContext.Provider>} />
-              <Route path="/portfolio" element={<UserContext.Provider value={userID}>
-                                                  <PortfolioPage />
-                                                </UserContext.Provider>} />
-              <Route path="/account" element={<UserContext.Provider value={userID}>
-                                                <AccountPage />
-                                              </UserContext.Provider>} />
+              <Route path="/trade" element={<TradePage />} />
+              <Route path="/portfolio" element={<PortfolioPage />} />
+              <Route path="/account" element={<AccountPage />} />
             </>
           ) : (
             <>

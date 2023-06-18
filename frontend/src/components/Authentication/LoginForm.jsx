@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import axios from 'axios';
 import { Navigate } from 'react-router';
 
-export default function LoginForm({setLoggedIn}, {setUserID}) {
+export default function LoginForm({setLoggedIn}) {
   let [authMode, setAuthMode] = useState("signin")
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
