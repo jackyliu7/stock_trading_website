@@ -12,7 +12,7 @@ function AccountPage() {
       const response = await axios.post('http://127.0.0.1:8000/trade/deposit/', { user_id, depositAmount });
       console.error(response);
       if (response.status === 200) {
-        const data = response.data["account balance"];
+        const data = response.data["account_balance"];
         setBalance(data);
       }
     } catch (error) {
@@ -26,7 +26,7 @@ function AccountPage() {
       const response = await axios.post('http://127.0.0.1:8000/trade/withdraw/', { user_id, withdrawAmount });
       console.error(response);
       if (response.status === 200) {
-        const data = response.data["account balance"];
+        const data = response.data["account_balance"];
         setBalance(data);
       }
     } catch (error) {

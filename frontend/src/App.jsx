@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import TradePage from './components/Trade/TradePage';
-import PortfolioPage from './components/PortfolioPage';
+import PortfolioPage from './components/Portfolio/PortfolioPage';
 import AccountPage from './components/AccountPage';
 import LoginForm from './components/Authentication/LoginForm';
 import NavBar from './components/NavBar';
